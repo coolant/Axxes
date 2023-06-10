@@ -31,44 +31,29 @@ export class GildedTros {
           this.decreaseQuality(item, 2)
           break
 
-        case this.backstagePasses.includes(item.name) && item.sellIn <= 10:
+        case this.backstagePasses.includes(item.name):
           const amount = this.calculatePassValue(item)
           this.increaseQuality(item, amount)
           break
 
         default:
           this.decreaseQuality(item, 1)
+          break
       }
 
-      if (this.items[i].name != "B-DAWG Keychain") {
-        this.items[i].sellIn = this.items[i].sellIn - 1
-      }
-
-      if (item.sellIn < 0) {
-        if (item.name != "Good Wine") {
-          if (
-            item.name != "Backstage passes for Re:Factor" ||
-            item.name != "Backstage passes for HAXX"
-          ) {
-            if (item.quality > 0) {
-              if (item.name != "B-DAWG Keychain") {
-                item.quality = item.quality - 1
-              }
-            }
-          } else {
-            item.quality = item.quality - item.quality
-          }
-        } else {
-          if (item.quality < 50) {
-            item.quality = item.quality + 1
-          }
-        }
-      }
+      this.decreaseSellIn(item, 1)
     })
   }
 
+  decreaseSellIn(item, amount) {
+    item.sellIn -= amount
+  }
+
   decreaseQuality(item, amount) {
-    if (item.quality > 0) item.quality -= amount
+    if (this.backstagePasses.includes(item.name) && item.sellIn < 0)
+      item.quality = 0
+
+    if (item.quality > 0) item.quality -= amount * (item.sellIn < 0 ? 2 : 1)
   }
 
   increaseQuality(item, amount) {
@@ -76,7 +61,9 @@ export class GildedTros {
   }
 
   calculatePassValue(item) {
-    if (item.sellIn >= 6) return 2
+    if (item.sellIn > 10) return 0
+
+    if (item.sellIn >= 6 && item.sellIn <= 10) return 2
 
     if (item.sellIn <= 5) return 3
   }
