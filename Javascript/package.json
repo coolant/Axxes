@@ -1,10 +1,10 @@
 {
-  "name": "gildedtros",
+  "name": "gilded-tros",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "build": "babel src -d dist",
-    "start": "node dist/text-test-fixture.js",
+    "start": "node src/text-test-fixture.js",
     "test": "jest",
     "test:watch": "jest --watchAll"
   },

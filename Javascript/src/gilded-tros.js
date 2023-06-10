@@ -4,6 +4,12 @@ export class GildedTros {
   }
 
   updateQuality() {
+    const smellyItems = [
+      "Duplicate Code",
+      "Long Methods",
+      "Ugly Variable Names",
+    ]
+
     for (let i = 0; i < this.items.length; i++) {
       if (
         this.items[i].name != "Good Wine" &&
@@ -11,8 +17,10 @@ export class GildedTros {
         this.items[i].name != "Backstage passes for HAXX"
       ) {
         if (this.items[i].quality > 0) {
-          if (this.items[i].name != "B-DAWG Keychain") {
-            this.items[i].quality = this.items[i].quality - 1
+          if (smellyItems.includes(this.items[i].name)) {
+            this.items[i].quality = this.items[i].quality - 2
+          } else if (this.items[i].name != "B-DAWG Keychain") {
+            this.items[i].quality -= 1
           }
         }
       } else {
